@@ -11,13 +11,18 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)    #Не окончательная реализация
     if @user.save
+      log_in @user
       flash[:success] = "Welcome to the your profile page!"
       redirect_to @user
+
     else
       render 'new'
     end
   end
 
+  def edit
+      @user = User.find(params[:id])
+  end
   private
     def user_params
       params.require(:user).permit(:name,:email,:password,:password_confirmation)
